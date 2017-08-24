@@ -32,11 +32,14 @@ def generate_item_label(label_type, item, attributes,
     if output is None:
         output = "{item.inventory_number}-{label_type}.{ext}"
     label_factory = invent.label.label_factories[label_type]
+    if hasattr(output, "write"):
+        return label_factory.generate_for_item(item, attributes=attributes,
+            output=output)
     output_file = output.format(item=item,
             label_type=label_type,
             ext=label_factory.file_extension)
     with open(output_file, "wb") as fh:
-        label_factory.generate_for_item(item, attributes=attributes,
+        return label_factory.generate_for_item(item, attributes=attributes,
                 output=fh)
 
 def generate_labels(args, session, engine):
@@ -53,8 +56,11 @@ def generate_labels(args, session, engine):
                                                 any_(inventory_numbers)).all())
 
     if items:
+        output = args.output
+        if output == "-":
+            output = sys.stdout.buffer
         for item in items:
-            generate_item_label(args.type, item, attrs, output=args.output)
+            generate_item_label(args.type, item, attrs, output=output)
     elif args.output:
         with open(args.output, "wb") as fh:
             label_factory.generate(attributes=attrs, output=fh)
@@ -104,11 +110,29 @@ def add_item(args, session, engine):
                 output=args.label_output)
 
 
+def update_item(args, session, engine):
+    item = session.query(Item).filter(Item.inventory_number == args.inventory_number).first()
+    if not item:
+        return
+    if args.title:
+        item.title = args.title
+    if args.resource_url:
+        item.resource_url = args.resource_url
+    if args.owner:
+        item.owner = args.owner
+    session.add(item)
+
+
+def list_realms(args, session, engine):
+    realms = session.query(Realm).filter(Realm.is_external == any_([args.external,
+        not args.internal])).all()
+    for realm in realms:
+        print(args.format.format(realm=realm))
+
 def list_items(args, session, engine):
     query = session.query(Item)
     if args.realm is not None:
-        realm = session.query(Realm).filter(or_(Realm.id == args.realm,
-                                                Realm.prefix == args.realm)).first()
+        realm = session.query(Realm).filter(Realm.prefix == args.realm).first()
         if realm is not None:
             query = query.filter(Item.realm_id == realm.id)
     if args.owner is not None:
@@ -181,6 +205,18 @@ def main(argv=sys.argv[1:]):
     generate_label_subparser.add_argument("--item-stdin", action="store_true")
     generate_label_subparser.add_argument("type")
 
+    list_realms_subparser = subparsers.add_parser("list-realms")
+    list_realms_subparser.add_argument("--internal", action="store_true",
+        default=True)
+    list_realms_subparser.add_argument("--no-internal", "-i", dest="internal",
+        action="store_false")
+    list_realms_subparser.add_argument("--external", action="store_true",
+            default=True)
+    list_realms_subparser.add_argument("--no-external", "-e", dest="external",
+            action="store_false")
+    list_realms_subparser.add_argument("--format", default="[{realm.prefix}]"
+            " {realm.name}")
+
     args = argparser.parse_args(argv)
 
     engine = sqlalchemy.create_engine(args.database)
@@ -196,10 +232,12 @@ def main(argv=sys.argv[1:]):
         pass
     elif args.subcommand in {"list", "list-items"}:
         subcommand = list_items
+    elif args.subcommand == "list-realms":
+        subcommand = list_realms
     elif args.subcommand in {"show", "get", "show-item"}:
         subcommand = show_item
     elif args.subcommand == "update-item":
-        pass
+        subcommand = update_item
     elif args.subcommand == "create-db":
         subcommand = create_db
     elif args.subcommand == "generate-label":
