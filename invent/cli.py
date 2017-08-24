@@ -10,6 +10,7 @@ from sqlalchemy import or_, asc, desc, any_
 import invent.label
 from invent.sql import *
 
+
 def print_item(item):
     print("{item.inventory_number} – {item.title}".format(item=item))
     print("-" * 80)
@@ -25,30 +26,35 @@ def print_item(item):
     qr.add_data(item.inventory_number)
     qr.print_ascii(tty=True)
 
+
 def generate_labels(args, session, engine):
     label_factory = invent.label.label_factories[args.type]
     attrs = dict(args.attr)
     items = None
     if args.item:
-        items = session.query(Item).filter(Item.inventory_number == any_(args.item)).all()
+        items = session.query(Item).filter(
+            Item.inventory_number == any_(args.item)).all()
 
     if items:
         output_file = (args.output or "{inventory_number}-{type}.pdf")
         for item in items:
             with open(output_file.format(inventory_number=item.inventory_number,
-                type=args.type), "wb") as fh:
+                                         type=args.type), "wb") as fh:
                 label_factory.generate_for_item(item, attributes=attrs,
-                        output=fh)
+                                                output=fh)
     elif args.output:
         with open(args.output, "wb") as fh:
             label_factory.generate(attributes=attrs, output=fh)
     else:
         label_factory.generate(attributes=attrs, output=sys.stdout.buffer)
 
+
 def show_item(args, session, engine):
-    item = session.query(Item).filter(Item.inventory_number == args.inventory_number).first()
+    item = session.query(Item).filter(
+        Item.inventory_number == args.inventory_number).first()
     if item:
         print_item(item)
+
 
 def create_db(args, session, engine):
     Base.metadata.create_all(engine)
@@ -57,12 +63,13 @@ def create_db(args, session, engine):
         alembic_cfg = alembic.config.Config(args.alembic_ini)
         alembic.command.stamp(alembic_cfg, "head")
 
+
 def add_item(args, session, engine):
     if args.realm is None:
         realm = session.query(Realm).filter(Realm.is_external == False).first()
     else:
         realm = session.query(Realm).filter(or_(Realm.id == args.realm,
-            Realm.prefix == args.realm)).first()
+                                                Realm.prefix == args.realm)).first()
     if not realm:
         return
     item = Item()
@@ -81,11 +88,12 @@ def add_item(args, session, engine):
         session.commit()
     print_item(item)
 
+
 def list_items(args, session, engine):
     query = session.query(Item)
     if args.realm is not None:
         realm = session.query(Realm).filter(or_(Realm.id == args.realm,
-            Realm.prefix == args.realm)).first()
+                                                Realm.prefix == args.realm)).first()
         if realm is not None:
             query = query.filter(Item.realm_id == realm.id)
     query = query.order_by(desc(args.sort_key))
@@ -94,6 +102,7 @@ def list_items(args, session, engine):
     items = query.all()
     for item in items:
         print("{item.inventory_number}:  {item.title}".format(item=item))
+
 
 def main(argv=sys.argv[1:]):
     argparser = argparse.ArgumentParser()
@@ -124,20 +133,21 @@ def main(argv=sys.argv[1:]):
     delete_item_subparser = subparsers.add_parser("delete-item")
     delete_item_subparser.add_argument("inventory_number")
 
-    list_items_subparser = subparsers.add_parser("list-items", aliases=["list"])
+    list_items_subparser = subparsers.add_parser(
+        "list-items", aliases=["list"])
     list_items_subparser.add_argument("--realm", "-R")
     list_items_subparser.add_argument("--limit", "-l", type=int, default=20)
     list_items_subparser.add_argument("--offset", "-o", type=int, default=0)
     list_items_subparser.add_argument("--sort-key", "-S", default="updated_at")
 
     show_item_subparser = subparsers.add_parser("show-item", aliases=["show",
-        "get"])
+                                                                      "get"])
     show_item_subparser.add_argument("inventory_number")
 
     generate_label_subparser = subparsers.add_parser("generate-label")
     generate_label_subparser.add_argument("--output", "-o")
     generate_label_subparser.add_argument("--attr", "-a", nargs=2, action="append",
-            default=[])
+                                          default=[])
     generate_label_subparser.add_argument("--item", "-i", action="append")
     generate_label_subparser.add_argument("type")
 
@@ -174,6 +184,6 @@ def main(argv=sys.argv[1:]):
         finally:
             session.close()
 
+
 if __name__ == "__main__":
     main()
-

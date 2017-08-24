@@ -9,6 +9,7 @@ from sqlalchemy.orm import relationship
 
 Base = sqlalchemy.ext.declarative.declarative_base()
 
+
 class Item(Base):
     __tablename__ = "items"
 
@@ -27,7 +28,7 @@ class Item(Base):
     def generate_inventory_number(self, format="{prefix}-{id:06X}"):
         if self.inventory_number is None:
             self.inventory_number = format.format(prefix=self.realm.prefix,
-                id=self.id)
+                                                  id=self.id)
         return self.inventory_number
 
     @property
@@ -42,7 +43,8 @@ class Item(Base):
 
     def __repr__(self):
         return "<Item(id={item.id!r}, inventory_number={item.inventory_number!r}" \
-                ", title={item.title!r}>".format(item=self)
+            ", title={item.title!r}>".format(item=self)
+
 
 class Realm(Base):
     __tablename__ = "realms"
@@ -52,6 +54,7 @@ class Realm(Base):
     prefix = Column(String, nullable=False, unique=True)
     realm_url_base = Column(String)
     is_external = Column(Boolean, default=False)
+
 
 class Label(Base):
     __tablename__ = "labels"
@@ -66,6 +69,6 @@ class Label(Base):
 
     item = relationship("Item", back_populates="labels")
 
+
 def create_all(engine):
     Base.metadata.create_all(engine)
-
