@@ -83,7 +83,7 @@
     {% endif %}
   </g>
   <!-- Magic transform, do not touch! -->
-  <g transform="matrix(0.17, 0, 0, 0.17, 46.5, 14.5)">
+  <g transform="matrix(0.17, 0, 0, 0.17, 46.5, 14)">
 		{% if qr %}{{ qr }}{% endif %}
 	</g>
 </svg>
