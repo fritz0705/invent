@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 100 62"
+   height="62mm"
+   width="100mm">
+  <g
+     id="layer2">
+    <text
+       id="text825"
+       y="7.7604165"
+       x="3.5"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.30033016px;line-height:3.53606844px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans Medium';stroke-width:0.26458332px"
+         y="7.7604165"
+         x="3.5"
+         id="tspan823">Inventory</tspan></text>
+    <text
+       id="text837"
+       y="59"
+       x="66.5"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:3.04194903px;line-height:3.25923109px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.91891885px;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';text-align:end;text-anchor:end;stroke-width:0.26458332px"
+         y="59"
+         x="66.5"
+         id="tspan835">{{ inventory_number }}</tspan></text>
+    <text
+       id="text849"
+       y="15.508466"
+       x="3.5"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.81752634px;line-height:5.1616354px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans Medium';stroke-width:0.26458332px"
+         y="15.508466"
+         x="3.5"
+         id="tspan1556">{{ title }}</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans Medium';stroke-width:0.26458332px"
+         y="20.806559"
+         x="3.5"
+         id="tspan4501">{{ subtitle }}</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82131648px;line-height:3.02283955px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458329px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="96.5"
+       y="7.7604151"
+       id="text853"><tspan
+         id="tspan851"
+         x="96.5"
+         y="7.7604151"
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans Light';text-align:end;text-anchor:end;stroke-width:0.26458329px">{{ realm_name }}</tspan></text>
+    {% if owner %}
+    <text
+       id="text843"
+       y="28.662498"
+       x="3.5"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.76739359px;line-height:2.96506476px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         id="tspan845"
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans Light';text-align:start;text-anchor:start;stroke-width:0.26458332px"
+         y="28.662498"
+         x="3.5">Owner: </tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.76739359px;line-height:2.96506476px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="18.169874"
+       y="28.662498"
+       id="text3669"><tspan
+         x="18.169874"
+         y="28.662498"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.26458332px"
+         id="tspan3667">{{ owner }}</tspan></text>
+    {% endif %}
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82131648px;line-height:3.02283955px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458329px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="3.5"
+       y="59"
+       id="text853-3"><tspan
+         id="tspan851-6"
+         x="3.5"
+         y="59"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Source Code Pro';-inkscape-font-specification:'Source Code Pro';text-align:start;text-anchor:start;stroke-width:0.26458329px">{{ realm_prefix }}</tspan></text>
+    {% if maintainer %}
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.76739359px;line-height:2.96506476px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="3.5"
+       y="32.925266"
+       id="text1749"><tspan
+         x="3.5"
+         y="32.925266"
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans Light';text-align:start;text-anchor:start;stroke-width:0.26458332px"
+         id="tspan1747">Maintainer: </tspan></text>
+    <text
+       id="text1753"
+       y="32.925266"
+       x="18.169874"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.76739359px;line-height:2.96506476px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         id="tspan1751"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.26458332px"
+         y="32.925266"
+         x="18.169874">{{ maintainer }}</tspan></text>
+    {% endif %}
+    {% if policy %}
+    <text
+       id="text1757"
+       y="37.08149"
+       x="3.5"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.76739359px;line-height:2.96506476px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         id="tspan1755"
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans Light';text-align:start;text-anchor:start;stroke-width:0.26458332px"
+         y="37.08149"
+         x="3.5">Policy: </tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.76739359px;line-height:2.96506476px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="18.169874"
+       y="37.08149"
+       id="text1761"><tspan
+         x="18.169874"
+         y="37.08149"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.26458332px"
+         id="tspan1759">{{ policy }}</tspan></text>
+    {% endif %}
+  </g>
+	<g transform="matrix(0.28,0,0,0.28,69.5,33)">
+		{% if qr %}{{ qr }}{% endif %}
+	</g>
+</svg>

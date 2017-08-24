@@ -5,7 +5,7 @@ import sys
 
 import qrcode
 import sqlalchemy
-from sqlalchemy import or_, asc, desc
+from sqlalchemy import or_, asc, desc, any_
 
 import invent.label
 from invent.sql import *
@@ -25,20 +25,20 @@ def print_item(item):
     qr.add_data(item.inventory_number)
     qr.print_ascii(tty=True)
 
-def generate_label(args, session, engine):
+def generate_labels(args, session, engine):
     label_factory = invent.label.label_factories[args.type]
     attrs = dict(args.attr)
-    item = None
+    items = None
     if args.item:
-        item = session.query(Item).filter(Item.inventory_number == args.item).first()
+        items = session.query(Item).filter(Item.inventory_number == any_(args.item)).all()
 
-    if item and args.output:
-        with open(args.output, "wb") as fh:
-            label_factory.generate_for_item(item, attributes=attrs,
-                    output=fh)
-    elif item:
-        res = label_factory.generate_for_item(item, attributes=attrs,
-                output=sys.stdout.buffer)
+    if items:
+        output_file = (args.output or "{inventory_number}-{type}.pdf")
+        for item in items:
+            with open(output_file.format(inventory_number=item.inventory_number,
+                type=args.type), "wb") as fh:
+                label_factory.generate_for_item(item, attributes=attrs,
+                        output=fh)
     elif args.output:
         with open(args.output, "wb") as fh:
             label_factory.generate(attributes=attrs, output=fh)
@@ -52,6 +52,10 @@ def show_item(args, session, engine):
 
 def create_db(args, session, engine):
     Base.metadata.create_all(engine)
+    if args.alembic_ini:
+        import alembic.config
+        alembic_cfg = alembic.config.Config(args.alembic_ini)
+        alembic.command.stamp(alembic_cfg, "head")
 
 def add_item(args, session, engine):
     if args.realm is None:
@@ -96,7 +100,7 @@ def main(argv=sys.argv[1:]):
     argparser.add_argument("--database", "-D", default="sqlite://")
     subparsers = argparser.add_subparsers(dest="subcommand")
 
-    add_item_subparser = subparsers.add_parser("add-item")
+    add_item_subparser = subparsers.add_parser("add-item", aliases=["add"])
     add_item_subparser.add_argument("--inventory-number", "-I")
     add_item_subparser.add_argument("--realm", "-R")
     add_item_subparser.add_argument("--resource-url", "-U")
@@ -109,6 +113,7 @@ def main(argv=sys.argv[1:]):
     add_realm_subparser.add_argument("name")
 
     create_db_subparser = subparsers.add_parser("create-db")
+    create_db_subparser.add_argument("--alembic-ini", "-a")
 
     update_item_subparser = subparsers.add_parser("update-item")
     update_item_subparser.add_argument("--title", "-t")
@@ -119,20 +124,21 @@ def main(argv=sys.argv[1:]):
     delete_item_subparser = subparsers.add_parser("delete-item")
     delete_item_subparser.add_argument("inventory_number")
 
-    list_items_subparser = subparsers.add_parser("list-items")
+    list_items_subparser = subparsers.add_parser("list-items", aliases=["list"])
     list_items_subparser.add_argument("--realm", "-R")
     list_items_subparser.add_argument("--limit", "-l", type=int, default=20)
     list_items_subparser.add_argument("--offset", "-o", type=int, default=0)
     list_items_subparser.add_argument("--sort-key", "-S", default="updated_at")
 
-    show_item_subparser = subparsers.add_parser("show-item")
+    show_item_subparser = subparsers.add_parser("show-item", aliases=["show",
+        "get"])
     show_item_subparser.add_argument("inventory_number")
 
     generate_label_subparser = subparsers.add_parser("generate-label")
     generate_label_subparser.add_argument("--output", "-o")
     generate_label_subparser.add_argument("--attr", "-a", nargs=2, action="append",
             default=[])
-    generate_label_subparser.add_argument("--item", "-i")
+    generate_label_subparser.add_argument("--item", "-i", action="append")
     generate_label_subparser.add_argument("type")
 
     args = argparser.parse_args(argv)
@@ -142,22 +148,22 @@ def main(argv=sys.argv[1:]):
 
     subcommand = None
 
-    if args.subcommand == "add-item":
+    if args.subcommand in {"add", "add-item"}:
         subcommand = add_item
     elif args.subcommand == "add-realm":
         pass
     elif args.subcommand == "delete-item":
         pass
-    elif args.subcommand == "list-items":
+    elif args.subcommand in {"list", "list-items"}:
         subcommand = list_items
-    elif args.subcommand == "show-item":
+    elif args.subcommand in {"show", "get", "show-item"}:
         subcommand = show_item
     elif args.subcommand == "update-item":
         pass
     elif args.subcommand == "create-db":
         subcommand = create_db
     elif args.subcommand == "generate-label":
-        subcommand = generate_label
+        subcommand = generate_labels
 
     if subcommand is None:
         argparser.print_help()

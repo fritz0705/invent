@@ -19,7 +19,7 @@ setuptools.setup(
     ],
     entry_points={
         "console_scripts": [
-            "invent-label = invent.label:main",
+            "invent = invent.cli:main",
         ]
     },
     package_data={}

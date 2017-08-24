@@ -24,9 +24,10 @@ class Item(Base):
     realm = relationship("Realm")
     labels = relationship("Label", back_populates="item")
 
-    def generate_inventory_number(self):
+    def generate_inventory_number(self, format="{prefix}-{id:06X}"):
         if self.inventory_number is None:
-            self.inventory_number = "{}-{:06X}".format(self.realm.prefix, self.id)
+            self.inventory_number = format.format(prefix=self.realm.prefix,
+                id=self.id)
         return self.inventory_number
 
     @property

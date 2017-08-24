@@ -80,8 +80,7 @@ class LabelSimple62x29(LabelType):
         if generate_qrcode and "inventory_number" in attributes:
             qr = qrcode.make(attributes["inventory_number"],
                     image_factory=qrcode.image.svg.SvgFragmentImage)
-            qr = qr.get_image()
-            qr = lxml.etree.tounicode(qr)
+            qr = lxml.etree.tounicode(qr.get_image())
         res = svg2pdf(tpl.render(qr=qr, **attributes).encode(), output=output)
         if output is None:
             return res.stdout
@@ -91,13 +90,15 @@ class LabelSimple100x62(LabelType):
     type = "simple-100x62"
     dimensions = (100, 62, "mm")
     media_type = "application/pdf"
-    attributes = [("generate_qrcode", "bool"),
-        ("url_base", "str"),
-        ("title", "str"),
-        ("owner", "str"),
-        ("maintainer", "str"),
-        ("inventory_number", "str"),
-        ("realm_name", "str")]
+    attributes = [("generate_qrcode", bool),
+        ("url_base", str),
+        ("title", str),
+        ("owner", str),
+        ("maintainer", str),
+        ("policy", str),
+        ("inventory_number", str),
+        ("realm_name", str),
+        ("realm_prefix", str)]
 
     def _generate(self, attributes, output=None):
         generate_qrcode = attributes.get("generate_qrcode", True)
@@ -108,7 +109,7 @@ class LabelSimple100x62(LabelType):
             qr_data = attributes["inventory_number"]
             if url_base is not None:
                 qr_data = urllib.parse.urljoin(url_base, qr_data)
-            qr = qrcode.make(attributes["inventory_number"],
+            qr = qrcode.make(qr_data,
                     image_factory=qrcode.image.svg.SvgFragmentImage)
             qr = lxml.etree.tounicode(qr.get_image())
         res = svg2pdf(tpl.render(qr=qr, **attributes).encode(), output=output)
