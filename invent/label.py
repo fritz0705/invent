@@ -69,6 +69,7 @@ class LabelType(object):
 class LabelSimple62x29(LabelType):
     type = "simple-62x29"
     media_type = "application/pdf"
+    file_extension = "pdf"
     attributes = [("generate_qrcode", bool),
                   ("title", str),
                   ("owner", str),
@@ -94,6 +95,7 @@ class LabelSimple100x62(LabelType):
     type = "simple-100x62"
     dimensions = (100, 62, "mm")
     media_type = "application/pdf"
+    file_extension = "pdf"
     attributes = [("generate_qrcode", bool),
                   ("url_base", str),
                   ("title", str),

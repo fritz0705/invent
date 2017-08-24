@@ -27,7 +27,20 @@ def print_item(item):
     qr.print_ascii(tty=True)
 
 
+def generate_item_label(label_type, item, attributes,
+        output=None):
+    if output is None:
+        output = "{item.inventory_number}-{label_type}.{ext}"
+    label_factory = invent.label.label_factories[label_type]
+    output_file = output.format(item=item,
+            label_type=label_type,
+            ext=label_factory.file_extension)
+    with open(output_file, "wb") as fh:
+        label_factory.generate_for_item(item, attributes=attributes,
+                output=fh)
+
 def generate_labels(args, session, engine):
+    attrs = dict(args.attr)
     label_factory = invent.label.label_factories[args.type]
     attrs = dict(args.attr)
     items = []
@@ -40,12 +53,8 @@ def generate_labels(args, session, engine):
                                                 any_(inventory_numbers)).all())
 
     if items:
-        output_file = (args.output or "{inventory_number}-{type}.pdf")
         for item in items:
-            with open(output_file.format(inventory_number=item.inventory_number,
-                                         type=args.type), "wb") as fh:
-                label_factory.generate_for_item(item, attributes=attrs,
-                                                output=fh)
+            generate_item_label(args.type, item, attributes, output=args.output)
     elif args.output:
         with open(args.output, "wb") as fh:
             label_factory.generate(attributes=attrs, output=fh)
@@ -90,6 +99,9 @@ def add_item(args, session, engine):
         session.add(item)
         session.commit()
     print_item(item)
+    if args.label_type:
+        generate_item_label(args.label_type, item, dict(args.label_attribute),
+                output=args.label_output)
 
 
 def list_items(args, session, engine):
@@ -122,6 +134,10 @@ def main(argv=sys.argv[1:]):
     add_item_subparser.add_argument("--realm", "-R")
     add_item_subparser.add_argument("--resource-url", "-U")
     add_item_subparser.add_argument("--owner", "-o")
+    add_item_subparser.add_argument("--label-type", "-l")
+    add_item_subparser.add_argument("--label-attribute", "-a", nargs=2,
+            action="append")
+    add_item_subparser.add_argument("--label-output", "-L")
     add_item_subparser.add_argument("title")
 
     add_realm_subparser = subparsers.add_parser("add-realm")
@@ -144,10 +160,10 @@ def main(argv=sys.argv[1:]):
     list_items_subparser = subparsers.add_parser(
         "list-items", aliases=["list"])
     list_items_subparser.add_argument("--realm", "-R")
-    list_items_subparser.add_argument("--limit", "-l", type=int, default=20)
-    list_items_subparser.add_argument("--offset", "-o", type=int, default=0)
+    list_items_subparser.add_argument("--limit", "-L", type=int, default=20)
+    list_items_subparser.add_argument("--offset", "-O", type=int, default=0)
     list_items_subparser.add_argument("--sort-key", "-S", default="updated_at")
-    list_items_subparser.add_argument("--owner")
+    list_items_subparser.add_argument("--owner", "-o")
     list_items_subparser.add_argument("--show-title", default=True,
                                       action="store_true")
     list_items_subparser.add_argument("--hide-title", dest="show_title",
@@ -175,7 +191,7 @@ def main(argv=sys.argv[1:]):
     if args.subcommand in {"add", "add-item"}:
         subcommand = add_item
     elif args.subcommand == "add-realm":
-        pass
+        subcommand = add_realm
     elif args.subcommand == "delete-item":
         pass
     elif args.subcommand in {"list", "list-items"}:
