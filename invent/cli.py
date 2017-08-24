@@ -54,7 +54,7 @@ def generate_labels(args, session, engine):
 
     if items:
         for item in items:
-            generate_item_label(args.type, item, attributes, output=args.output)
+            generate_item_label(args.type, item, attrs, output=args.output)
     elif args.output:
         with open(args.output, "wb") as fh:
             label_factory.generate(attributes=attrs, output=fh)
