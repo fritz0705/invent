@@ -30,10 +30,14 @@ def print_item(item):
 def generate_labels(args, session, engine):
     label_factory = invent.label.label_factories[args.type]
     attrs = dict(args.attr)
-    items = None
+    items = []
     if args.item:
-        items = session.query(Item).filter(
-            Item.inventory_number == any_(args.item)).all()
+        items.extend(session.query(Item).filter(
+            Item.inventory_number == any_(args.item)).all())
+    if args.item_stdin:
+        inventory_numbers = [l.strip() for l in sys.stdin.readlines()]
+        items.extend(session.query(Item).filter(Item.inventory_number ==
+                                                any_(inventory_numbers)).all())
 
     if items:
         output_file = (args.output or "{inventory_number}-{type}.pdf")
@@ -68,8 +72,7 @@ def add_item(args, session, engine):
     if args.realm is None:
         realm = session.query(Realm).filter(Realm.is_external == False).first()
     else:
-        realm = session.query(Realm).filter(or_(Realm.id == args.realm,
-                                                Realm.prefix == args.realm)).first()
+        realm = session.query(Realm).filter(Realm.prefix == args.realm).first()
     if not realm:
         return
     item = Item()
@@ -96,12 +99,17 @@ def list_items(args, session, engine):
                                                 Realm.prefix == args.realm)).first()
         if realm is not None:
             query = query.filter(Item.realm_id == realm.id)
+    if args.owner is not None:
+        query = query.filter(Item.owner == str(args.owner))
     query = query.order_by(desc(args.sort_key))
     query = query.limit(args.limit)
     query = query.offset(args.offset)
     items = query.all()
     for item in items:
-        print("{item.inventory_number}:  {item.title}".format(item=item))
+        if args.show_title:
+            print("{item.inventory_number}:  {item.title}".format(item=item))
+        else:
+            print("{item.inventory_number}".format(item=item))
 
 
 def main(argv=sys.argv[1:]):
@@ -139,6 +147,11 @@ def main(argv=sys.argv[1:]):
     list_items_subparser.add_argument("--limit", "-l", type=int, default=20)
     list_items_subparser.add_argument("--offset", "-o", type=int, default=0)
     list_items_subparser.add_argument("--sort-key", "-S", default="updated_at")
+    list_items_subparser.add_argument("--owner")
+    list_items_subparser.add_argument("--show-title", default=True,
+                                      action="store_true")
+    list_items_subparser.add_argument("--hide-title", dest="show_title",
+                                      action="store_false")
 
     show_item_subparser = subparsers.add_parser("show-item", aliases=["show",
                                                                       "get"])
@@ -149,6 +162,7 @@ def main(argv=sys.argv[1:]):
     generate_label_subparser.add_argument("--attr", "-a", nargs=2, action="append",
                                           default=[])
     generate_label_subparser.add_argument("--item", "-i", action="append")
+    generate_label_subparser.add_argument("--item-stdin", action="store_true")
     generate_label_subparser.add_argument("type")
 
     args = argparser.parse_args(argv)
