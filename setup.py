@@ -16,6 +16,12 @@ setuptools.setup(
             "Programming Language :: Python :: 3.6",
     ],
     install_requires=[
+        "qrcode",
+        "alembic",
+        "sqlalchemy",
+        "psycopg2",
+        "lxml",
+        "jinja2"
     ],
     entry_points={
         "console_scripts": [
