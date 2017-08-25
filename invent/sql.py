@@ -21,6 +21,8 @@ class Item(Base):
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     updated_at = Column(DateTime, onupdate=datetime.datetime.utcnow)
     realm_id = Column(Integer, ForeignKey('realms.id'))
+    is_labeled = Column(Boolean, default=False)
+    is_active = Column(Boolean, default=True)
 
     realm = relationship("Realm")
     labels = relationship("Label", back_populates="item")
