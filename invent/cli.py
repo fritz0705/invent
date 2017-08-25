@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import argparse
+import os
 import sys
 
 import qrcode
@@ -172,7 +173,7 @@ def list_items(args, session, engine):
 
 def main(argv=sys.argv[1:]):
     argparser = argparse.ArgumentParser()
-    argparser.add_argument("--database", "-D", default="sqlite://")
+    argparser.add_argument("--database", "-D")
     subparsers = argparser.add_subparsers(dest="subcommand")
 
     add_item_subparser = subparsers.add_parser("add-item", aliases=["add"])
@@ -270,6 +271,9 @@ def main(argv=sys.argv[1:]):
                                        " {realm.name}")
 
     args = argparser.parse_args(argv)
+    
+    if not args.database:
+        args.database = os.getenv("INVENT_DB", "sqlite://")
 
     engine = sqlalchemy.create_engine(args.database)
     Session = sqlalchemy.orm.sessionmaker(bind=engine)
