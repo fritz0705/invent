@@ -21,6 +21,8 @@ def print_item(item):
         print("  Owner:        {}".format(item.owner))
     print("  Created at:   {}".format(item.created_at))
     print("  Updated at:   {}".format(item.updated_at))
+    print("  Is active:    {}".format(item.is_active))
+    print("  Is labeled:   {}".format(item.is_labeled))
     print()
     qr = qrcode.QRCode()
     qr.add_data(item.inventory_number)
