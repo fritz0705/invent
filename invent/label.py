@@ -78,7 +78,7 @@ class LabelSimple62x29(LabelType):
     dimensions = (62, 29, "mm")
 
     def _generate(self, attributes, output=None):
-        generate_qrcode = attributes.get("generate_qrcode", False)
+        generate_qrcode = attributes.get("generate_qrcode", True)
         tpl = label_env.get_template("simple-62x29.svg")
         qr = None
         if generate_qrcode and "inventory_number" in attributes:
