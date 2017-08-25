@@ -14,7 +14,7 @@ class Item(Base):
     __tablename__ = "items"
 
     id = Column(Integer, primary_key=True)
-    inventory_number = Column(String, unique=True)
+    inventory_number = Column(String, unique=True, index=True)
     title = Column(String, nullable=False)
     owner = Column(String)
     resource_url = Column(String)
