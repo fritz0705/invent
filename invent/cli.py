@@ -54,11 +54,11 @@ def generate_labels(args, session, engine):
     items = []
     if args.item:
         items.extend(session.query(Item).filter(
-            Item.inventory_number == any_(args.item)).all())
+            Item.inventory_number.in_(args.item)).all())
     if args.item_stdin:
         inventory_numbers = [l.strip() for l in sys.stdin.readlines()]
-        items.extend(session.query(Item).filter(Item.inventory_number ==
-                                                any_(inventory_numbers)).all())
+        items.extend(session.query(Item).filter(
+            Item.inventory_number.in_(inventory_numbers)).all())
 
     if items:
         output = args.output
@@ -142,8 +142,8 @@ def update_item(args, session, engine):
 
 
 def list_realms(args, session, engine):
-    realms = session.query(Realm).filter(Realm.is_external == any_([args.external,
-                                                                    not args.internal])).all()
+    realms = session.query(Realm).filter(Realm.is_external.in_([args.external,
+                                                                not args.internal])).all()
     for realm in realms:
         print(args.format.format(realm=realm))
 
