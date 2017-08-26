@@ -104,6 +104,10 @@ def add_item(args, session, engine):
     item.realm_id = realm.id
     item.resource_url = args.resource_url
     item.title = args.title
+    if args.active is not None:
+        item.is_active = args.active
+    if args.labeled is not None:
+        item.is_labeled = args.labeled
     session.add(item)
     session.commit()
     if not item.inventory_number:
@@ -181,6 +185,15 @@ def main(argv=sys.argv[1:]):
     add_item_subparser.add_argument("--realm", "-R")
     add_item_subparser.add_argument("--resource-url", "-U")
     add_item_subparser.add_argument("--owner", "-o")
+    add_item_subparser.add_argument("--active", action="store_true",
+                                    default=None)
+    add_item_subparser.add_argument("--inactive", dest="active",
+                                    action="store_false")
+    add_item_subparser.add_argument("--labeled", "--labelled", default=None,
+                                    action="store_true")
+    add_item_subparser.add_argument("--unlabeled", "--unlabelled",
+                                    "--not-labeled", "--not-labelled",
+                                    dest="labeled", action="store_false")
     add_item_subparser.add_argument("--label-type", "-l")
     add_item_subparser.add_argument("--label-attribute", "-a", nargs=2,
                                     action="append")
@@ -195,19 +208,20 @@ def main(argv=sys.argv[1:]):
     create_db_subparser = subparsers.add_parser("create-db")
     create_db_subparser.add_argument("--alembic-ini", "-a")
 
-    update_item_subparser = subparsers.add_parser("update-item", aliases=["update", "modify"])
+    update_item_subparser = subparsers.add_parser(
+        "update-item", aliases=["update", "modify"])
     update_item_subparser.add_argument("--title", "-t")
     update_item_subparser.add_argument("--resource-url", "-U")
     update_item_subparser.add_argument("--owner", "-o")
     update_item_subparser.add_argument("--active", action="store_true",
-            default=None)
+                                       default=None)
     update_item_subparser.add_argument("--inactive", dest="active",
-            action="store_false")
+                                       action="store_false")
     update_item_subparser.add_argument("--labeled", "--labelled",
-            default=None, action="store_true")
+                                       default=None, action="store_true")
     update_item_subparser.add_argument("--unlabeled", "--unlabelled",
-            "--not-labelled", "--not-labeled", dest="labeled",
-            action="store_false")
+                                       "--not-labelled", "--not-labeled",
+                                       dest="labeled", action="store_false")
     update_item_subparser.add_argument("--quiet", "-q", action="store_true")
     update_item_subparser.add_argument("inventory_number")
 
@@ -222,32 +236,33 @@ def main(argv=sys.argv[1:]):
     list_items_subparser.add_argument("--sort-key", "-S", default="updated_at")
     list_items_subparser.add_argument("--owner", "-o")
     list_items_subparser.add_argument("--active", action="store_true",
-            default=None)
+                                      default=None)
     list_items_subparser.add_argument("--inactive", dest="active",
-            action="store_false")
+                                      action="store_false")
     list_items_subparser.add_argument("--labeled", "--labelled",
-            action="store_true", default=None)
+                                      action="store_true", default=None)
     list_items_subparser.add_argument("--unlabeled", "--unlabelled",
-            "--not-labelled", "--not-labeled", dest="labeled",
-            action="store_false")
+                                      "--not-labelled", "--not-labeled",
+                                      dest="labeled", action="store_false")
     list_items_subparser.add_argument("--show-title", default=True,
                                       action="store_true")
     list_items_subparser.add_argument("--hide-title", dest="show_title",
                                       action="store_false")
     list_items_subparser.add_argument("--format", default=None)
-    list_items_subparser.add_argument("--csv", dest="format", action="store_const",
-            const="{item.id!r};{item.inventory_number!r};{item.title!r};"
-            "{item.owner!r};{item.resource_url!r};{item.is_active!r};"
-            "{item.is_labeled!r};{item.realm.prefix!r};{item.realm.name!r};"
-            "{item.created_at};{item.updated_at}")
+    list_items_subparser.add_argument("--csv", dest="format",
+                                      action="store_const",
+                                      const="{item.id!r};{item.inventory_number!r};{item.title!r};"
+                                      "{item.owner!r};{item.resource_url!r};{item.is_active!r};"
+                                      "{item.is_labeled!r};{item.realm.prefix!r};{item.realm.name!r};"
+                                      "{item.created_at};{item.updated_at}")
 
     show_item_subparser = subparsers.add_parser("show-item", aliases=["show",
                                                                       "get",
                                                                       "show-items"])
     show_item_subparser.add_argument("--show-qrcode", default=True,
-            action="store_true")
+                                     action="store_true")
     show_item_subparser.add_argument("--hide-qrcode", "-Q", action="store_false",
-            dest="show_qrcode")
+                                     dest="show_qrcode")
     show_item_subparser.add_argument("inventory_numbers", nargs="+")
 
     generate_label_subparser = subparsers.add_parser("generate-label")
@@ -271,7 +286,7 @@ def main(argv=sys.argv[1:]):
                                        " {realm.name}")
 
     args = argparser.parse_args(argv)
-    
+
     if not args.database:
         args.database = os.getenv("INVENT_DB", "sqlite://")
 
