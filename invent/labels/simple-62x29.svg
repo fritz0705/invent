@@ -42,11 +42,11 @@
          id="tspan1556"
          x="2"
          y="280.11523"
-         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans Medium';stroke-width:0.26458332px">{{ title }}</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans Medium';stroke-width:0.26458332px">{{ title|e }}</tspan><tspan
          id="tspan4501"
          x="2"
          y="284.42838"
-         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans Medium';stroke-width:0.26458332px">{{ subtitle }}</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans Medium';stroke-width:0.26458332px">{{ subtitle|e }}</tspan></text>
     {% if realm_name %}
     <text
        id="text853"
@@ -57,7 +57,7 @@
          style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans Light';text-align:end;text-anchor:end;stroke-width:0.26458332px"
          y="274.14847"
          x="58.5"
-         id="tspan851">{{ realm_name }}</tspan></text>
+         id="tspan851">{{ realm_name|e }}</tspan></text>
 		{% endif %}
 		{% if owner %}
     <text
@@ -79,7 +79,7 @@
          id="tspan3667"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.26458332px"
          y="289.65009"
-         x="11.618482">{{ owner }}</tspan></text>
+         x="11.618482">{{ owner|e }}</tspan></text>
     {% endif %}
   </g>
   <!-- Magic transform, do not touch! -->

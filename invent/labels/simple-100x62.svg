@@ -41,11 +41,11 @@
          style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans Medium';stroke-width:0.26458332px"
          y="15.508466"
          x="3.5"
-         id="tspan1556">{{ title }}</tspan><tspan
+         id="tspan1556">{{ title|e }}</tspan><tspan
          style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans Medium';stroke-width:0.26458332px"
          y="20.806559"
          x="3.5"
-         id="tspan4501">{{ subtitle }}</tspan></text>
+         id="tspan4501">{{ subtitle|e }}</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:2.82131648px;line-height:3.02283955px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458329px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -55,7 +55,7 @@
          id="tspan851"
          x="96.5"
          y="7.7604151"
-         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans Light';text-align:end;text-anchor:end;stroke-width:0.26458329px">{{ realm_name }}</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans Light';text-align:end;text-anchor:end;stroke-width:0.26458329px">{{ realm_name|e }}</tspan></text>
     {% if owner %}
     <text
        id="text843"
@@ -76,7 +76,7 @@
          x="18.169874"
          y="28.662498"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.26458332px"
-         id="tspan3667">{{ owner }}</tspan></text>
+         id="tspan3667">{{ owner|e }}</tspan></text>
     {% endif %}
     <text
        xml:space="preserve"
@@ -87,7 +87,7 @@
          id="tspan851-6"
          x="3.5"
          y="59"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Fira Mono';-inkscape-font-specification:'Fira Mono';text-align:start;text-anchor:start;stroke-width:0.26458329px">{{ realm_prefix }}</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Fira Mono';-inkscape-font-specification:'Fira Mono';text-align:start;text-anchor:start;stroke-width:0.26458329px">{{ realm_prefix|e }}</tspan></text>
     {% if maintainer %}
     <text
        xml:space="preserve"
@@ -108,7 +108,7 @@
          id="tspan1751"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.26458332px"
          y="32.925266"
-         x="18.169874">{{ maintainer }}</tspan></text>
+         x="18.169874">{{ maintainer|e }}</tspan></text>
     {% endif %}
     {% if policy %}
     <text
@@ -130,7 +130,7 @@
          x="18.169874"
          y="37.08149"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Fira Sans';-inkscape-font-specification:'Fira Sans';text-align:start;text-anchor:start;stroke-width:0.26458332px"
-         id="tspan1759">{{ policy }}</tspan></text>
+         id="tspan1759">{{ policy|e }}</tspan></text>
     {% endif %}
   </g>
 	<g transform="matrix(0.28,0,0,0.28,69.5,33)">
